@@ -18,7 +18,13 @@
             "logs"
         ],
         "prefer-for-of": false,
-        "forin": false
+        "forin": false,
+        "no-shadowed-variable": false,
+        "only-arrow-functions": false,
+        "variable-name": false,
+        "no-var-requires": false,
+        "class-name": false,
+        "no-unused-expression": false
     },
     "rulesDirectory": []
 }

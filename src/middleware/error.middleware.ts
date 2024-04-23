@@ -1,6 +1,6 @@
 import HttpException from "../common/http-exception";
 import { Request, Response, NextFunction } from "express";
-
+// middleware to handle network exceptions
 export const errorHandler = (
   error: HttpException,
   request: Request,

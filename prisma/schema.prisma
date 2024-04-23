@@ -1,0 +1,41 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model post_user_mention {
+    id         Int      @id @default(autoincrement()) @db.UnsignedInt
+    user_id    Int?     @db.UnsignedInt
+    post_id    Int?     @db.UnsignedInt
+    created_at DateTime @default(now()) @db.Timestamp(0)
+    updated_at DateTime @default(now()) @db.Timestamp(0)
+    user       users?   @relation(fields: [user_id], references: [id])
+    post       posts?   @relation(fields: [post_id], references: [id])
+}
+
+model posts {
+    id                Int                 @id @default(autoincrement()) @db.UnsignedInt
+    user_id           Int?                @db.UnsignedInt
+    message           String?             @db.VarChar(280)
+    created_at        DateTime            @default(now()) @db.Timestamp(0)
+    updated_at        DateTime            @default(now()) @db.Timestamp(0)
+    user              users?              @relation(fields: [user_id], references: [id])
+    post_user_mention post_user_mention[]
+
+    @@index([user_id], map: "FK_user_post")
+}
+
+model users {
+    id                Int                 @id @default(autoincrement()) @db.UnsignedInt
+    username          String?             @unique @db.VarChar(50)
+    email             String?             @unique @db.VarChar(50)
+    password          String?             @db.VarChar(50)
+    created_at        DateTime            @default(now()) @db.Timestamp(0)
+    updated_at        DateTime            @default(now()) @db.Timestamp(0)
+    posts             posts[]
+    post_user_mention post_user_mention[]
+}

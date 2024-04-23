@@ -1,0 +1,18 @@
+@url = http://127.0.0.1:3004/v1
+
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVybnN0QGdtYWlsLmNvbSIsImlkIjoxLCJ1c2VybmFtZSI6ImVybnN0IiwiaWF0IjoxNzEzODYzNjYwLCJleHAiOjE3MTM5NTAwNjB9.fPqqwhNPk0ugCXUbO9_PT3tIp4Lt7kC7_GjqEV9sx0o
+
+#### Retrives information of the loged in user
+GET {{url}}/user/
+Authorization: Bearer {{token}}
+
+#### Register USER
+POST {{url}}/user/
+Content-Type: application/json
+
+{
+    "email":"Liam@gmail.com",
+    "password":"a",
+    "confirm_password":"a",
+    "username":"Liam"
+}

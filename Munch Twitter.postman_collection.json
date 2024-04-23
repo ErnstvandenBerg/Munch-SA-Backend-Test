@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "8261e175-73ce-4fa6-88ed-e43b596c8fb2",
+		"name": "Munch Twitter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34470068"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"ernst@gmail.com\",\r\n    \"password\":\"a\"\r\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/user/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVybnN0QGdtYWlsLmNvbSIsImlkIjoxLCJ1c2VybmFtZSI6ImVybnN0IiwiaWF0IjoxNzEzODY5NTk2LCJleHAiOjE3MTM5NTU5OTZ9.t8YyQ_cSyGo8Vd7D46K0V_Ms9ajdMkH2RrGwitZOsDA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVybnN0QGdtYWlsLmNvbSIsImlkIjoxLCJ1c2VybmFtZSI6ImVybnN0IiwiaWF0IjoxNzEzODYzNjYwLCJleHAiOjE3MTM5NTAwNjB9.fPqqwhNPk0ugCXUbO9_PT3tIp4Lt7kC7_GjqEV9sx0o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"Ciam123@gmail.com\",\r\n    \"password\":\"Liam123!\",\r\n    \"confirmPassword\":\"Liam123!\",\r\n    \"username\":\"Liam123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/user/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVybnN0QGdtYWlsLmNvbSIsImlkIjoxLCJ1c2VybmFtZSI6ImVybnN0IiwiaWF0IjoxNzEzODYzNjYwLCJleHAiOjE3MTM5NTAwNjB9.fPqqwhNPk0ugCXUbO9_PT3tIp4Lt7kC7_GjqEV9sx0o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\":\"Hi All you guys @Damian @Liam\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/post/create",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"post",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get timeline",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkxpYW1AZ21haWwuY29tIiwiaWQiOjMsInVzZXJuYW1lIjoiTGlhbSIsImlhdCI6MTcxMzg3MDEwMSwiZXhwIjoxNzEzOTU2NTAxfQ.IeupmOrVSFV27pR8hRYos0xzNQPuMbS9gg6BPpvnWRc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/post/timeline",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"post",
+						"timeline"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get feed",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVybnN0QGdtYWlsLmNvbSIsImlkIjoxLCJ1c2VybmFtZSI6ImVybnN0IiwiaWF0IjoxNzEzODYzNjYwLCJleHAiOjE3MTM5NTAwNjB9.fPqqwhNPk0ugCXUbO9_PT3tIp4Lt7kC7_GjqEV9sx0o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/post/feed",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"post",
+						"feed"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://127.0.0.1:3004/v1",
+			"type": "string"
+		}
+	]
+}

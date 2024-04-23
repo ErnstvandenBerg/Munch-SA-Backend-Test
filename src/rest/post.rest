@@ -1,0 +1,24 @@
+@url = http://127.0.0.1:3004/v1
+
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxpYW1AZ21haWwuY29tIiwiaWQiOjMsInVzZXJuYW1lIjoiTGlhbSIsImlhdCI6MTcxMzgxNzAzOCwiZXhwIjoxNzEzOTAzNDM4fQ.YHMPVuAvQxfyXTNbecp5GHjp8ao5dp8qsOwDdUplXzU
+
+###
+POST {{url}}/post/create
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "message":"Hi All you guys @Ernst"
+}
+
+###
+
+GET  {{url}}/post/timeline
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+GET  {{url}}/post/feed
+Content-Type: application/json
+Authorization: Bearer {{token}}

@@ -2,8 +2,9 @@ import jwt from 'jsonwebtoken';
 import { db } from '../../db';
 import md5 from 'md5';
 import express from 'express';
-import { cLog } from '../../utils/logger';
 import verify from '../../utils/verify';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient()
 // import statusCode from '../utils/statusCodeSender'
 export const auth = express.Router();
 
@@ -12,60 +13,46 @@ let refreshTokens: any[] = [];
 const accessTokenSECRET: any = process.env.ACCESS_TOKEN_SECRET;
 const refreshTokenSECRET: any = process.env.REFRESH_TOKEN_SECRET;
 
+//user login
 auth.post('/user/login', async (req, res) => {
-    // Authenticate User
 
     const email: string = req.body.email;
     const password: string = req.body.password;
 
-    cLog(`Login from email:`, `${email}`, 'debug', false);
-    let dbUser = [];
-
     try {
-        dbUser = await db.AuthGetUser(email, String(password));
+        //checks user password and gets user data
+        const dbUser = await db.AuthGetUser(email, String(password));
 
-    }
-    catch (err) {
-        console.log(err)
+        if (dbUser) {
+            const user = {
+                email,
+                id: dbUser.id,
+                username: dbUser.username
+            };
+
+            const state = md5(`${dbUser.id}${dbUser.email}${dbUser.password}${dbUser.updated_at}`);
+
+            const userRefresh = {
+                id: dbUser.id,
+                email,
+                state
+            };
+            //generate new access token and refresh token
+            const accessToken = generateAccessToken(user);
+            const refreshToken = generateRefreshToken(userRefresh);
+
+            refreshTokens.push(refreshToken);
+
+            return res.json({ accessToken, refreshToken });
+        } else {
+            return res.sendStatus(401);
+        }
+    } catch (err) {
+
         return res.sendStatus(500);
     }
-
-    if (dbUser) {
-        const user =
-        {
-            email,
-            id: dbUser.id,
-            first_name: dbUser.first_name,
-            last_name: dbUser.last_name,
-            role_id: dbUser.role_id,
-            user_status: dbUser.status
-        }
-
-        const state = md5(`${dbUser.id}${dbUser.email}${dbUser.password}${dbUser.updated_at}`);
-
-        const userRefresh =
-        {
-            id: dbUser.id,
-            email,
-            state,
-            user_status: dbUser.status
-
-        }
-
-        const accessToken = generateAccessToken(user);
-
-        const refreshToken = generateRefreshToken(userRefresh);
-
-        refreshTokens.push(refreshToken);
-        res.json({ accessToken, refreshToken });
-
-
-    }
-    else {
-        return res.sendStatus(401);
-    }
-})
-
+});
+//generate new access token bassed in refresh token
 auth.post('/token', (req, res) => {
 
     const refreshToken = req.body.token
@@ -77,10 +64,10 @@ auth.post('/token', (req, res) => {
             return res.sendStatus(403)
         }
         const accessToken = generateAccessToken({ email: user.email, id: user.id, user_status: user.user_status, firstname: user.firstname, lastname: user.lastname, role_id: user.role_id })
-        res.json({ accessToken })
+        res.send({ accessToken })
     })
 });
-
+//generate new access and refresh token bassed in refresh token
 auth.post('/refresh', async (req, res) => {
 
     let refreshToken = req.body.token;
@@ -111,41 +98,41 @@ auth.post('/refresh', async (req, res) => {
 
     if (refreshCheck) {
 
-        const dbUser = await db.asyncPool(`SELECT * FROM users WHERE id =?`, [decoded.id]);
-
+        const dbUser = await prisma.users.findFirst({
+            where: {
+                id: decoded.id,
+            },
+        });
+        if (dbUser === null) {
+            return res.sendStatus(401)
+        }
         const userAccess =
         {
-            email: dbUser[0].email,
-            id: dbUser[0].id,
-            firstname: dbUser[0].name_first,
-            lastname: dbUser[0].name_last,
-            role_id: dbUser[0].role_id,
-            user_status: dbUser[0].is_activated
-
+            email: dbUser.email,
+            id: dbUser.id,
+            username: dbUser.username
         }
 
-        const state = md5(`${dbUser[0].id}${dbUser[0].email}${dbUser[0].password}${dbUser[0].updated_at}`);
+        const state = md5(`${dbUser.id}${dbUser.email}${dbUser.password}${dbUser.updated_at}`);
 
         const userRefresh =
         {
-            id: dbUser[0].id,
-            email: dbUser[0].email,
-            state,
-
-            user_status: dbUser[0].is_activated
-
+            id: dbUser.id,
+            email: dbUser.email,
+            state
         }
 
         const accessToken = generateAccessToken(userAccess)
         refreshToken = jwt.sign(userRefresh, refreshTokenSECRET, { expiresIn: '1d' })
         refreshTokens.push(refreshToken);
-        res.json({ accessToken, refreshToken })
+        res.send({ accessToken, refreshToken })
     }
     else {
         return res.sendStatus(401);
     }
 });
 
+//removes refresh tokens
 auth.delete('/logout', (req, res) => {
     refreshTokens = refreshTokens.filter(token => token !== req.body.token)
     res.sendStatus(204)

@@ -9,9 +9,11 @@ import statusCodeSender from "./utils/statusCodeSender";
 statusCodeSender.start();
 import { auth } from "./routes/auth/auth";
 import { userRoute } from "./routes/user/user";
+import { postRoute } from "./routes/post/post";
 
 
 if (!process.env.PORT) {
+    console.log("Server Closed \nPlease add a .end")
     process.exit(1);
 }
 
@@ -25,7 +27,7 @@ app.use(express.json());
 
 app.use("/v1", auth);
 app.use("/v1/user", userRoute);
-
+app.use("/v1/post", postRoute);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
