@@ -11,8 +11,8 @@ POST {{url}}/user/
 Content-Type: application/json
 
 {
-    "email":"Liam@gmail.com",
-    "password":"a",
-    "confirm_password":"a",
-    "username":"Liam"
+    "email":"Liam1@gmail.com",
+    "password":"Liam123!",
+    "confirmPassword":"Liam123!",
+    "username":"Liam1"
 }

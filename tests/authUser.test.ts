@@ -16,9 +16,18 @@ let accessToken = ""
 
 describe('Login and User API', () => {
     it('should return 200 OK and tokens on successful login', async () => {
+        const PostResponse = await request(app)
+            .post('/users')
+            .send({
+                "email": "test123@gmail.com",
+                "password": "User123!",
+                "confirmPassword": "User123!",
+                "username": "test123"
+            });
+
         const response = await request(app)
             .post('/auth/user/login')
-            .send({ email: 'ernst@gmail.com', password: 'a' });
+            .send({ email: 'test123@gmail.com', password: 'User123!' });
         accessToken = response.body.accessToken
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('accessToken');
@@ -28,7 +37,7 @@ describe('Login and User API', () => {
     it('should return 401 Unauthorized on invalid credentials', async () => {
         const response = await request(app)
             .post('/auth/user/login')
-            .send({ email: 'invalid@example.com', password: 'invalidpassword' });
+            .send({ email: 'test123@gmail.com', password: 'invalidpassword' });
         expect(response.status).toBe(401);
     });
 
@@ -36,19 +45,20 @@ describe('Login and User API', () => {
         jest.spyOn(db, 'AuthGetUser').mockRejectedValue(new Error('Database error'));
         const response = await request(app)
             .post('/auth/user/login')
-            .send({ email: 'example@example.com', password: 'password' });
+            .send({ email: 'test123@gmail.com', password: 'User123!' });
 
         expect(response.status).toBe(500);
     });
 
     it('should return user details for valid token in Authorization header', async () => {
-        const mockUser = { id: 1, username: 'ernst', email: 'ernst@gmail.com' };
+        const mockUser = { email: 'test123@gmail.com', username: 'test123' };
         const response = await request(app)
             .get('/users')
             .set('Authorization', `Bearer ${accessToken}`);
 
         expect(response.status).toBe(200);
-        expect(response.body).toEqual({ statusCode: 0, user: mockUser });
+        expect(response.body.user.username).toEqual(mockUser.username);
+        expect(response.body.user.email).toEqual(mockUser.email);
     });
 
     it('should return error message if token is invalid', async () => {

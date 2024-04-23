@@ -14,9 +14,9 @@ const AuthGetUser = async (email: string, password: any) => {
         });
 
         if (!user || !user.password || user.password === '') return false;
-
+        console.log(password.toString(), user.password)
         const authed = await AuthCheckPassword(password.toString(), user.password, user.id);
-
+        console.log(authed)
         if (authed) {
             return user;
         } else {
@@ -64,26 +64,29 @@ async function AuthCheckPassword(check: string, against: string, id: string | nu
         return true;
     } else {
         try {
-            const user = await prisma.users.findUnique({
-                where: {
-                    id: typeof id === 'string' ? parseInt(id, 10) : id,
-                },
-            });
+            if (check === against) {
+                const user = await prisma.users.findUnique({
+                    where: {
+                        id: typeof id === 'string' ? parseInt(id, 10) : id,
+                    },
+                });
 
-            if (!user) {
-                return false;
+                if (!user) {
+                    return false;
+                }
+
+                await prisma.users.update({
+                    where: {
+                        id: user.id,
+                    },
+                    data: {
+                        password: hash,
+                    },
+                });
+
+                return true;
             }
-
-            await prisma.users.update({
-                where: {
-                    id: user.id,
-                },
-                data: {
-                    password: hash,
-                },
-            });
-
-            return true;
+            return false
         } catch (error) {
             console.error("Error in AuthCheckPassword:", error);
             throw error;

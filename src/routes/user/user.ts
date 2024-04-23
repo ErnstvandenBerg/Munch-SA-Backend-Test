@@ -76,7 +76,7 @@ userRoute.post('/', validateUser, async (req: Request, res: Response) => {
         }
 
         const hash = bcrypt.hashSync(user.password.toString(), 10);
-
+        console.log(hash)
         const newUser = await prisma.users.create({
             data: {
                 email: user.email,

@@ -7,7 +7,7 @@ To start
 
 # DB Instructions.
 
-Steps for db updats it. Will create a new database in your local db server
+Steps for db updates. It Will create a new database in your local db server
 
 1. npx prisma db push (Generate a new database from schema)
 2. npx prisma generate (Will models based on the schema)
