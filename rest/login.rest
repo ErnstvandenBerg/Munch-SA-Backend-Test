@@ -1,29 +1,40 @@
-@url = http://127.0.0.1:4001/v1
-@Dev=https://airla-api.herokuapp.com/v1
-@devurl = ""
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRvd2llLmRhbWlhbkBnbWFpbC5jb20iLCJpZCI6MSwiZmlyc3RfbmFtZSI6IkRhbWlhbiIsImxhc3RfbmFtZSI6IkRvd2llIiwicm9sZV9pZCI6MSwidXNlcl9zdGF0dXMiOiJub3QgYWN0aXZlIiwiaWF0IjoxNjYzODQwMDIzLCJleHAiOjE2NjM5MjY0MjN9.mHc-QRJjcWJJ4247fC6VC7KsMAloitYmCqH9g60qooU
+@url = http://127.0.0.1:3004/v1
 
-################################
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVybnN0QGdtYWlsLmNvbSIsImlkIjoxLCJ1c2VybmFtZSI6ImVybnN0IiwiaWF0IjoxNzEzODEyMDgwLCJleHAiOjE3MTM4OTg0ODB9.VVCRG2qBd-ilyvleN5BiCXBltyaFRF6f7erbNlV7xx4
+
+###
 POST {{url}}/user/login
 Content-Type: application/json
 
 {
-    "email":"dowie.damian@gmail.com",
-    "password":"test"
-}
+    "email":"Liam1@gmail.com",
+    "password":"Liam123!"
+} 
 
-####
-GET {{url}}/user/
-Authorization: Bearer {{token}}
+###
 
-####
-POST {{url}}/user/
+POST {{url}}/token
 Content-Type: application/json
 
 {
-    "email":"Daniel@airla.com",
-    "password":"test",
-    "confirm_password":"test2",
-    "first_name":"Daniel",
-    "last_name":"Montile"
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTEsImVtYWlsIjoiYWRtaW5AYWRtaW4iLCJzdGF0ZSI6ImRhMWYzNDI3ZTYxN2M3Mjg1ZWU4OTg5MGUyYTNkN2U3IiwidXNlcl9zdGF0dXMiOiJub3QgYWN0aXZlIiwiaWF0IjoxNjkwMzYwNDQ3LCJleHAiOjE2OTA0NDY4NDd9.XxPOyhw5YpJm8OJyPj_DODEoPToONFMniVNNq2LtHC4"
+}
+
+
+###
+
+POST {{url}}/refresh
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTEsImVtYWlsIjoiYWRtaW5AYWRtaW4iLCJzdGF0ZSI6ImRhMWYzNDI3ZTYxN2M3Mjg1ZWU4OTg5MGUyYTNkN2U3IiwidXNlcl9zdGF0dXMiOiJub3QgYWN0aXZlIiwiaWF0IjoxNjkwMzYwNDQ3LCJleHAiOjE2OTA0NDY4NDd9.XxPOyhw5YpJm8OJyPj_DODEoPToONFMniVNNq2LtHC4"
+}
+
+###
+
+DELETE  {{url}}/logout
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTEsImVtYWlsIjoiYWRtaW5AYWRtaW4iLCJzdGF0ZSI6ImRhMWYzNDI3ZTYxN2M3Mjg1ZWU4OTg5MGUyYTNkN2U3IiwidXNlcl9zdGF0dXMiOiJub3QgYWN0aXZlIiwiaWF0IjoxNjkwMzYwNDQ3LCJleHAiOjE2OTA0NDY4NDd9.XxPOyhw5YpJm8OJyPj_DODEoPToONFMniVNNq2LtHC4"
 }

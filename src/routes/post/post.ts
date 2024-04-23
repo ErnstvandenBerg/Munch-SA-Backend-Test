@@ -67,7 +67,6 @@ postRoute.get('/timeline', verify, async (req: Request, res: Response) => {
     try {
         const jwtUser: any = await jwt_decoder(req);
 
-
         const userPosts = await prisma.posts.findMany({
             where: {
                 OR: [
