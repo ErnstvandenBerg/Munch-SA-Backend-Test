@@ -33,7 +33,7 @@ model users {
     id                Int                 @id @default(autoincrement()) @db.UnsignedInt
     username          String?             @unique @db.VarChar(50)
     email             String?             @unique @db.VarChar(50)
-    password          String?             @db.VarChar(50)
+    password          String?             @db.VarChar(255)
     created_at        DateTime            @default(now()) @db.Timestamp(0)
     updated_at        DateTime            @default(now()) @db.Timestamp(0)
     posts             posts[]
