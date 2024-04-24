@@ -56,6 +56,5 @@ describe('Prisma Schema', () => {
         });
         expect(deletedUser).toBeNull();
 
-        console.warn('User with username "testuser" not found in the database');
     });
 });
